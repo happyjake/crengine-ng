@@ -256,7 +256,11 @@ endif()
 
 # libwebp library
 if(WITH_LIBWEBP STREQUAL "AUTO" OR ${WITH_LIBWEBP})
-    find_package(WebPAlt MODULE)
+    find_package(WebP)
+    if (NOT WebP_FOUND)
+        message(STATUS "WebP cmake configuration not found, alternative find module will be used")
+        find_package(WebPAlt)
+    endif()
 endif()
 if (WebP_FOUND)
     set(USE_LIBWEBP ON)
