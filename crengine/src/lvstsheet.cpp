@@ -4509,6 +4509,7 @@ bool LVStyleSheet::parse(const char* str, bool higher_importance, lString32 code
             }
             break;
         }
+        CR_UNUSED2(err_count, rule_count)
         if (err) {
             // error:
             // delete chain of selectors
