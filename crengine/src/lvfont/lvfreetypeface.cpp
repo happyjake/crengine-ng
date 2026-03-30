@@ -90,6 +90,20 @@ static lChar32 getReplacementChar(lUInt32 code, bool* can_be_ignored = NULL) {
         case 0x0451:       // CYRILLIC SMALL LETTER IO
             return 0x0435; // CYRILLIC SMALL LETTER IE
         case UNICODE_NO_BREAK_SPACE:
+        case 0x2000: // EN QUAD
+        case 0x2001: // EM QUAD
+        case 0x2002: // EN SPACE
+        case 0x2003: // EM SPACE
+        case 0x2004: // THREE-PER-EM SPACE
+        case 0x2005: // FOUR-PER-EM SPACE
+        case 0x2006: // SIX-PER-EM SPACE
+        case 0x2007: // FIGURE SPACE
+        case 0x2008: // PUNCTUATION SPACE
+        case 0x2009: // THIN SPACE
+        case 0x200A: // HAIR SPACE
+        case 0x202F: // NARROW NO-BREAK SPACE
+        case 0x205F: // MEDIUM MATHEMATICAL SPACE
+        case 0x3000: // IDEOGRAPHIC SPACE
             return ' ';
         case UNICODE_WORD_JOINER:
             if (can_be_ignored)
