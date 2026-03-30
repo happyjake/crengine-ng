@@ -276,7 +276,9 @@ enum
     PGHDR_BATTERY = 32,         // show current battery charge
     PGHDR_CHAPTER_MARKS = 64,   // show chapter marks
     PGHDR_PERCENT = 128,        // show current posistion in percent
-    PGHDR_BATTERY_PERCENT = 256 // show current battery charge in percent
+    PGHDR_BATTERY_PERCENT = 256, // show current battery charge in percent
+    PGHDR_CHAPTER_TITLE = 512,   // show current chapter title in header
+    PGHDR_CHAPTER_PAGES = 1024   // show chapter page progress (x/y)
 };
 
 //typedef lUInt64 LVPosBookmark;
@@ -831,6 +833,8 @@ public:
     void setDecimalPointChar(lChar32 decimalPointChar);
     /// draw page header to buffer
     virtual void drawPageHeader(LVDrawBuf* drawBuf, const lvRect& headerRc, int pageIndex, lUInt32 headerInfoFlags, int pageCount);
+    /// find chapter info for given page index
+    void getCurrentChapterForPage(int pageIndex, lString32& chapterTitle, int& pageInChapter, int& pagesInChapter);
     /// draw battery state to buffer
     virtual void drawBatteryState(LVDrawBuf* drawBuf, const lvRect& rc);
 
