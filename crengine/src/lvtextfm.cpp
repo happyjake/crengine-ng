@@ -2059,13 +2059,26 @@ public:
                         ldomNode* node = (ldomNode*)src->object;
                         int width = 0;
                         int height = 0;
+                        // Account for text-indent: if this image will be on the
+                        // first line (no preceding content), the available width
+                        // is reduced by the paragraph's text-indent.  Without
+                        // this, the image is sized to the full paragraph width
+                        // but drawn starting at the indent offset, causing the
+                        // right side to be clipped.
+                        int img_max_width = m_pbuffer->width;
+                        if (lastWidth == 0 && m_pbuffer->srctextlen > 0) {
+                            int indent = m_pbuffer->srctext[0].indent;
+                            if (indent > 0 && indent < img_max_width) {
+                                img_max_width -= indent;
+                            }
+                        }
                         // We have yet no container height to provide for CSS heights in %,
                         // so they won't apply
-                        getStyledImageSize(node, width, height, m_pbuffer->width, -1);
+                        getStyledImageSize(node, width, height, img_max_width, -1);
                         // Ensure they are constrained to this paragraph width and page height
                         // Note: resizeImage() may do some additional scaling depending on image_scaling_options,
                         // use mode=0 scale=1 for these if this is not desirable.
-                        resizeImage(width, height, m_pbuffer->width, m_max_img_height, m_length > 1);
+                        resizeImage(width, height, img_max_width, m_max_img_height, m_length > 1);
                         if ((m_srcs[start]->flags & LTEXT_STRUT_CONFINED) && m_allow_strut_confining) {
                             // Text with "-cr-hint: strut-confined" might just be vertically shifted,
                             // but won't change widths. But images who will change height must also
