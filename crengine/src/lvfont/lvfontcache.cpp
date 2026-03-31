@@ -63,11 +63,13 @@ LVFontCacheItem* LVFontCache::findFallback(lString8 face, int size) {
             best_index = i;
         }
     }
-    if (best_index <= 0)
+    if (best_index < 0 && best_instance_index < 0)
         return NULL;
-    if (best_instance_match >= best_match)
+    if (best_instance_index >= 0 && best_instance_match >= best_match)
         return _instance_list[best_instance_index];
-    return _registered_list[best_index];
+    if (best_index >= 0)
+        return _registered_list[best_index];
+    return NULL;
 }
 
 LVFontCacheItem* LVFontCache::find(const LVFontDef* fntdef, bool useBias) {
